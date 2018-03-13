@@ -1,0 +1,11 @@
+﻿@model webdev.Models.Link
+<div>
+    @using (Html.BeginForm("Update", "Link", FormMethod.Post))
+    {
+        <strong>@Html.DisplayNameFor(model => Model.LongLink):</strong>
+        @Html.EditorFor(model => Model.LongLink)  <br />
+        @Html.HiddenFor(model => Model.Hash)
+        @Html.HiddenFor(model => Model.Id)
+        <button type="submit">Save</button>
+    }
+</div>

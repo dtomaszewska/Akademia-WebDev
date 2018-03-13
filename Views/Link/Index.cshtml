@@ -1,0 +1,21 @@
+﻿@model List<webdev.Models.Link>
+<div>
+    @using (Html.BeginForm("Create", "Link", FormMethod.Post))
+    {
+        @ViewBag.Error
+        <input type="text" name="LongLink" placeholder="Place a link in here" /> <br />
+        <button type="submit">Add</button>
+    }
+</div>
+<div>
+    <table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => item.LongLink),</td>
+                <td>@Html.ActionLink(item.Hash, "Open", "Redirect", item, new {target = "_blank"})</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Link", item) | @Html.ActionLink("Edit", "Edit", "Link", item)</td>
+            </tr>
+        }
+    </table>
+</div>
