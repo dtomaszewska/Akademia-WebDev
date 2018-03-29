@@ -1,28 +1,26 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using webdev.Models;
 using webdev.Repository;
-using webdev.Services;
 
 namespace webdev.Controllers
 {
 	public class LinkController : Controller
 	{
-		private readonly ILinkRepository _repository;
-		private readonly IHashService _hashService;
+		private readonly ILinkDBRepository _repository;
 
-		public LinkController(ILinkRepository repository, IHashService hashService)
+		public LinkController(ILinkDBRepository repository)
 		{
 			_repository = repository;
-			_hashService = hashService;
 		}
 
 		[HttpGet]
 		public IActionResult Index()
 		{
-			var links = _repository.GetLinks();
-			return View(links);
+			var links = _repository.Get(string.Empty, 0);
+			return View(links.Item1.ToList());
 		}
 
 		[HttpPost]
@@ -30,8 +28,7 @@ namespace webdev.Controllers
 		{
 			if (IsUriValid(link.LongLink))
 			{
-				link.Hash = _hashService.CreateNextHash();
-				_repository.AddLink(link);
+				_repository.Create(link);
 			}
 
 			return Redirect(nameof(Index));
@@ -40,7 +37,7 @@ namespace webdev.Controllers
 		[HttpGet]
 		public IActionResult Delete(Link link)
 		{
-			_repository.DeleteLink(link);
+			_repository.Delete(link.Id);
 			return Redirect(nameof(Index));
 		}
 
@@ -53,7 +50,7 @@ namespace webdev.Controllers
 		[HttpPost]
 		public IActionResult Update(Link link)
 		{
-			_repository.UpdateLink(link);
+			_repository.Update(link);
 			return Redirect(nameof(Index));
 		}
 

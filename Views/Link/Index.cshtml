@@ -13,7 +13,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(model => item.LongLink),</td>
-                <td>@Html.ActionLink(item.Hash, "Open", "Redirect", item, new {target = "_blank"})</td>
+                <td>@Html.ActionLink(item.Hash, "Open", "Redirect", item, new {hash = item.Hash, target = "_blank"})</td>
                 <td>@Html.ActionLink("Delete", "Delete", "Link", item) | @Html.ActionLink("Edit", "Edit", "Link", item)</td>
             </tr>
         }

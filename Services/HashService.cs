@@ -10,17 +10,11 @@ namespace webdev.Services
 		private const string Salt = "Bardzo tajny klucz";
 		private const int MinHashL = 5;
 
-		private readonly ILinkRepository _repository;
 		private readonly Hashids _hash = new Hashids(Salt, MinHashL, Key);
 
-		public HashService(ILinkRepository repository)
+		public string CreateNextHash(int? lastId)
 		{
-			_repository = repository;
-		}
-
-		public string CreateNextHash()
-		{
-			var nextHash = _hash.Encode(_repository.GetLinks().LastOrDefault()?.Id ?? 0);
+			var nextHash = _hash.Encode(lastId ?? 0);
 			return nextHash;
 		}
 	}

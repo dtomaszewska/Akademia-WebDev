@@ -2,6 +2,6 @@
 {
 	public interface IHashService
 	{
-		string CreateNextHash();
+		string CreateNextHash(int? id);
 	}
 }

@@ -7,9 +7,9 @@ namespace webdev.Controllers
 {
 	public class RedirectController : Controller
 	{
-		private readonly ILinkRepository _repository;
+		private readonly ILinkDBRepository _repository;
 
-		public RedirectController(ILinkRepository repository)
+		public RedirectController(ILinkDBRepository repository)
 		{
 			_repository = repository;
 		}
@@ -18,7 +18,7 @@ namespace webdev.Controllers
 		[Route("/{hash}")]
 		public IActionResult Open(string hash)
 		{
-			var link = _repository.GetLinks().FirstOrDefault(x => x.Hash == hash);
+			var link = _repository.Get().FirstOrDefault(x => x.Hash == hash);
 			return link.LongLink.StartsWith("http") || link.LongLink.StartsWith("ftp")
 				? Redirect(link.LongLink)
 				: Redirect("http://" + link.LongLink);
